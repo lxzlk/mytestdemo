@@ -1,0 +1,23 @@
+import xlwt
+import unittest
+
+file = xlwt.Workbook('G:\\result1.xls')
+tt = file.add_sheet('test')
+style = xlwt.XFStyle()  # 初始化样式
+alignment = xlwt.Alignment()
+alignment.wrap = xlwt.Alignment.WRAP_AT_RIGHT # 自动换行
+style.alignment = alignment
+
+with open('G:\工作资料\黑名单项目\脚本\custname1.txt', encoding='utf-8') as f:
+    #for i in f.readlines():
+    for (num, value) in enumerate(f):
+        #print(i.strip())
+        value.strip()
+        tt.write(num, 0, value, style)
+        print(num, value)
+file.save('G:\工作资料\黑名单项目\脚本\\result1.xls')
+
+if __name__ == '__main__':
+    unittest.main()
+
+

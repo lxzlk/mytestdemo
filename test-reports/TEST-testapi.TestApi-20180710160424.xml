@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<testsuite errors="0" failures="0" name="testapi.TestApi-20180710160424" tests="1" time="0.332">
+	<testcase classname="testapi.TestApi" name="test_api" time="0.332"/>
+	<system-out>
+<![CDATA[start.....
+{"result":false,"errorCode":"10007","errorMessage":"当前请求已失效","content":null}
+200
+测试完毕！！！！！
+]]>	</system-out>
+	<system-err>
+<![CDATA[]]>	</system-err>
+</testsuite>

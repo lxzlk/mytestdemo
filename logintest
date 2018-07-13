@@ -1,0 +1,57 @@
+'''
+cnblog的登录测试，分下面几种情况：
+(1)用户名、密码正确
+(2)用户名正确、密码不正确
+(3)用户名正确、密码为空
+(4)用户名错误、密码正确
+(5)用户名为空、密码正确（还有用户名和密码均为空时与此情况是一样的，这里就不单独测试了）
+'''
+import unittest
+from selenium import webdriver
+from time import sleep
+
+
+class LoginCase(unittest.TestCase):
+
+    def setUp(self):
+        self.dr = webdriver.Chrome()
+        self.dr.maximize_window()
+
+    # 定义登录方法
+    def login(self, username, password):
+        self.dr.get('http://10.138.23.192:8080/login')  # cnblog登录页面
+        self.dr.find_element_by_id('username').send_keys(username)
+        self.dr.find_element_by_id('password').send_keys(password)
+        self.dr.find_element_by_id('btnLogin').click()
+
+    def test_login_success(self):
+        '''用户名、密码正确'''
+        self.login('baolitest', '123456')  # 正确用户名和密码
+        sleep(4)
+        user = self.dr.find_element_by_xpath('//*[@id="main_top"]/div[3]/ul/li/span[1]').text
+        self.assertIn('baolitest1', user)
+        print(user)
+        self.dr.get_screenshot_as_file("E:\pic\\login_success.jpg")  # 截图  可自定义截图后的保存位置和图片命名
+
+    def test_login_pwd_error(self):
+        self.login('caiwutest', '12345')  # 正确用户名，错误密码
+        sleep(4)
+        error_message = self.dr.find_element_by_id('erroReply').text
+        self.assertIn('用户名或密码错误', error_message)  # 用assertIn(a,b)方法来断言 a in b  '用户名或密码错误'在error_message里
+        self.dr.get_screenshot_as_file("E:\pic\\login_pwd_error.jpg")
+
+    def test_login_pwd_null(self):
+        self.login('', '')  # 用户名、密码为空
+        sleep(4)
+        error_message = self.dr.find_element_by_id('erroReply').text
+        self.assertEqual(error_message, '用户名或密码错误')  # 用assertEqual(a,b)方法来断言  a == b  请输入密码等于error_message
+        self.dr.get_screenshot_as_file("E:\pic\\login_pwd_null.jpg")
+
+    def tearDown(self):
+        sleep(2)
+        print('自动测试完毕！')
+        self.dr.quit()
+
+
+if __name__ == '__main__':
+    unittest.main()
