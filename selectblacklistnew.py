@@ -10,9 +10,12 @@ driver.find_element_by_id('username').send_keys('caiwutest')
 driver.find_element_by_id('password').send_keys('123456')
 driver.find_element_by_id('btnLogin').click()
 sleep(5)
+
 driver.get_screenshot_as_file(
     "E:\pic\\login_success.png"
 )
+#加权限限后，增加面板
+driver.find_element_by_partial_link_text('黑名单').click()
 driver.find_element_by_id('commercialRegCert').send_keys('12150523460701166R')
 driver.find_element_by_id('btnSearch').click()
 sleep(3)
